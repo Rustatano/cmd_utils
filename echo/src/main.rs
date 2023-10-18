@@ -1,6 +1,6 @@
 use std::{env, process};
 
-use echo::config::Config;
+use recho::config::Config;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
