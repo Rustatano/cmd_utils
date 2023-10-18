@@ -80,14 +80,11 @@ impl Config {
                     return Ok(value);
                 };
                 if self.out_set {
-                    println!("1");
                     match fs::write(PathBuf::from(self.out_file.unwrap()), self.arg) {
                         Ok(_) => {
-                            println!("2");
                             return Ok(String::from("succesfully written to file"));
                         },
                         Err(e) => {
-                            println!("3");
                             return Err(format!("{}", e));
                         },
                     }
