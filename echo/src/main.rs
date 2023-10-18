@@ -8,5 +8,5 @@ fn main() {
         Ok(config) => config,
         Err(e) => {eprintln!("ERROR: {}", e); process::exit(1)},
     };
-    println!("{}", config.run());
+    println!("{}", config.run().unwrap());
 }
