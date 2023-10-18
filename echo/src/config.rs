@@ -36,7 +36,7 @@ impl Config {
             },
             5 | 4 => {
                 if is_option(&args[1]) && args.len() == 5 {
-                    if args[args.len() - 2] == ">" {
+                    if args[args.len() - 2] == ">" { // refactor these to a function
                         return Ok(
                             Config { 
                                 opt: Some(args[1].clone()), 
@@ -46,16 +46,19 @@ impl Config {
                             }
                         );
                     }
-                    return Err(String::from("invalid file name"));
+                    return Err(String::from("invalid output pattern"));
                 } else if args.len() == 4 {
+                    if args[args.len() - 2] == ">" { // refactor these to a function
                         return Ok(
                             Config { 
-                                opt: None, 
-                                arg: args[1].clone(),
+                                opt: Some(args[1].clone()), 
+                                arg: args[2].clone(),
                                 out_set: true,
-                                out_file: Some(args[3].clone()),
+                                out_file: Some(args[args.len() - 2].clone()),
                             }
                         );
+                    }
+                    return Err(String::from("invalid ouput pattern"));
                 }
                 return Err(format!("{} is not an option", args[1]));
             },
@@ -77,11 +80,14 @@ impl Config {
                     return Ok(value);
                 };
                 if self.out_set {
+                    println!("1");
                     match fs::write(PathBuf::from(self.out_file.unwrap()), self.arg) {
                         Ok(_) => {
+                            println!("2");
                             return Ok(String::from("succesfully written to file"));
                         },
                         Err(e) => {
+                            println!("3");
                             return Err(format!("{}", e));
                         },
                     }
