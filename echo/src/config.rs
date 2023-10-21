@@ -36,7 +36,7 @@ impl Config {
             },
             5 | 4 => {
                 if is_option(&args[1]) && args.len() == 5 {
-                    if args[args.len() - 2] == ">" { // refactor these to a function
+                    if args[args.len() - 2] == ">" {
                         return Ok(
                             Config { 
                                 opt: Some(args[1].clone()), 
@@ -47,25 +47,13 @@ impl Config {
                         );
                     }
                     return Err(String::from("invalid output pattern"));
-                } else if args.len() == 4 {
-                    if args[args.len() - 2] == ">" { // refactor these to a function
-                        return Ok(
-                            Config { 
-                                opt: Some(args[1].clone()), 
-                                arg: args[2].clone(),
-                                out_set: true,
-                                out_file: Some(args[args.len() - 2].clone()),
-                            }
-                        );
-                    }
-                    return Err(String::from("invalid ouput pattern"));
                 }
                 return Err(format!("{} is not an option", args[1]));
             },
             _ => {
                 return Err(format!("command `echo` takes 1, 2 or 4 arguments, but {} were given", args.len() - 1));
             },
-        }
+        } 
     }
 
     pub fn run(self) -> Result<String, String> {
