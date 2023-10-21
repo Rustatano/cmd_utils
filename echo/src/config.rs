@@ -4,7 +4,6 @@ use std::{env, fs, path::PathBuf};
 pub struct Config {
     opt: Option<String>,
     arg: String,
-    out_set: bool,
     out_file: Option<String>,
 }
 
@@ -16,7 +15,6 @@ impl Config {
                     Config {
                         opt: None, 
                         arg: args[1].clone(),
-                        out_set: false,
                         out_file: None,
                     }
                 );
@@ -27,7 +25,6 @@ impl Config {
                         Config { 
                             opt: Some(args[1].clone()), 
                             arg: args[2].clone(),
-                            out_set: false,
                             out_file: None,
                         }
                     );
@@ -41,7 +38,6 @@ impl Config {
                             Config { 
                                 opt: Some(args[1].clone()), 
                                 arg: args[2].clone(),
-                                out_set: true,
                                 out_file: Some(args[args.len() - 2].clone()),
                             }
                         );
@@ -67,8 +63,8 @@ impl Config {
                 if let Ok(value) = env::var(&self.arg) {
                     return Ok(value);
                 };
-                if self.out_set {
-                    match fs::write(PathBuf::from(self.out_file.unwrap()), self.arg) {
+                if let Some(file) = self.out_file {
+                    match fs::write(PathBuf::from(file), self.arg) {
                         Ok(_) => {
                             return Ok(String::from("succesfully written to file"));
                         },
