@@ -1,6 +1,5 @@
 use std::{env, fs, path::PathBuf};
 
-#[derive(Debug)]
 pub struct Config {
     opt: Option<String>,
     arg: String,
